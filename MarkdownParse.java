@@ -12,22 +12,32 @@ public class MarkdownParse {
 
         
         int currentIndex = 0;
-        int nextOpenBracket = markdown.indexOf("[", currentIndex);
-        int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
-        int openParen = markdown.indexOf("(", nextCloseBracket);
-        int closeParen = markdown.indexOf(")", markdown.length()-1);
-        toReturn.add(markdown.substring(openParen + 1, closeParen));
+        while(currentIndex < markdown.length()) {
+            int nextOpenBracket = markdown.indexOf("[", currentIndex);
+            int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
+            int openParen = markdown.indexOf("(", nextCloseBracket);
+            int closeParen = markdown.indexOf(")", openParen);
+            toReturn.add(markdown.substring(openParen + 1, closeParen));
+            currentIndex = closeParen + 1;
+
+        }
         return toReturn;
     }
     public static void main(String[] args) throws IOException {
+        boolean run = true;
 		Path fileName = Path.of(args[0]);
 	    String contents = Files.readString(fileName);
         if (contents.length() == 0) {
             System.out.println("the file is empty");
+            run = false;
         }
-        else {
-        ArrayList<String> links = getLinks(contents);
-        System.out.println(links);
+        if (!contents.substring(0, 1).equals("[")) {
+            System.out.println("No link provided");
+            run = false;
+        }
+        if (run == true) {
+            ArrayList<String> links = getLinks(contents);
+            System.out.println(links);
         }
     }
 }
