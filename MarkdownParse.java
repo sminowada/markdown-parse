@@ -26,6 +26,7 @@ public class MarkdownParse {
                 link = link.substring(openParen + 1, closeParen);
                 toReturn.add(link);  
             }
+            
         }
         return toReturn;
     }
