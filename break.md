@@ -1,2 +1,1 @@
-[another link!](some-page.html)
-[another link!]
+[another link!](some-page.)html)
