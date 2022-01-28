@@ -1,43 +1,39 @@
-// File reading code from https://howtodoinjava.com/java/io/java-read-file-to-string-examples/
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class MarkdownParse {
-    public static ArrayList<String> getLinks(String markdown) {
+
+    public static ArrayList<String> getLinks(String[] markdown) {
         ArrayList<String> toReturn = new ArrayList<>();
         // find the next [, then find the ], then find the (, then take up to
         // the next )
+        for(int i=0; i<markdown.length; i++) {
 
-        
-        int currentIndex = 0;
-        while(currentIndex < markdown.length()) {
-            int nextOpenBracket = markdown.indexOf("[", currentIndex);
-            int nextCloseBracket = markdown.indexOf("]", nextOpenBracket);
-            int openParen = markdown.indexOf("(", nextCloseBracket);
-            int closeParen = markdown.indexOf(")", openParen);
-            toReturn.add(markdown.substring(openParen + 1, closeParen));
-            currentIndex = closeParen + 1;
+            if(markdown[i].contains("[") && markdown[i].contains("]") 
+                && markdown[i].contains("(") && markdown[i].contains(")") 
+                && markdown[i].contains(".")) {
+                
+                String link = markdown[i];
+                int openParen = link.indexOf("(");
 
+                if(link.substring(openParen, link.length() - 1).contains(" ")) {
+                    link = link.substring(0, link.indexOf(" ", openParen));
+                }
+                
+                int closeParen = link.lastIndexOf(")");
+                link = link.substring(openParen + 1, closeParen);
+                toReturn.add(link);  
+            }
         }
         return toReturn;
     }
     public static void main(String[] args) throws IOException {
-        boolean run = true;
 		Path fileName = Path.of(args[0]);
 	    String contents = Files.readString(fileName);
-        if (contents.length() == 0) {
-            System.out.println("the file is empty");
-            run = false;
-        }
-        if (!contents.substring(0, 1).equals("[")) {
-            System.out.println("No link provided");
-            run = false;
-        }
-        if (run == true) {
-            ArrayList<String> links = getLinks(contents);
-            System.out.println(links);
-        }
+        String[] contentsArray = contents.split("\n");
+        ArrayList<String> links = getLinks(contentsArray);
+        System.out.println(links);
     }
 }
