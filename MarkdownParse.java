@@ -34,7 +34,6 @@ public class MarkdownParse {
         return toReturn;
     }
     public static void main(String[] args) throws IOException {
-        assertEquals(10, 1+1);
 		Path fileName = Path.of(args[0]);
 	    String contents = Files.readString(fileName);
         String[] contentsArray = contents.split("\n");
