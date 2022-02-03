@@ -5,6 +5,7 @@ import org.junit.Test;
 
 public class junit {
 
+
     @Test
     public void testJunit() {
         assertTrue(false);
