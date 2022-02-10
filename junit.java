@@ -8,7 +8,7 @@ public class junit {
 
     @Test
     public void testJunit() {
-        assertTrue(true);
+        
     }
 }
 
